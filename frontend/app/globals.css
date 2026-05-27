@@ -2,25 +2,39 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #111111;
+
+  /* NAVBAR HEIGHT */
+  --nav-height: 88px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  scroll-behavior: smooth;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  /* Prevent horizontal scroll */
+  overflow-x: hidden;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-y: auto;
+}
+
+/* HERO TEXT SHADOW */
+.text-shadow-hero {
+  text-shadow: 0px 4px 18px rgba(0, 0, 0, 0.55);
+}
+
+/* FIX ANCHOR JUMP */
+section {
+  scroll-margin-top: var(--nav-height);
+}
+
+* {
+  box-sizing: border-box;
 }
