@@ -47,17 +47,15 @@ export default function Hero() {
           px-6
           text-center
 
-          min-h-[calc(100vh-78px)]
+          min-h-[72vh]
 
-          sm:min-h-[calc(100vh-88px)]
+          sm:min-h-[74vh]
 
-          md:min-h-[calc(100vh-96px)]
+          md:min-h-[76vh]
 
-          lg:min-h-[calc(100vh-104px)]
+          lg:min-h-[78vh]
 
-          xl:min-h-[calc(100vh-112px)]
-
-          2xl:min-h-[calc(100vh-118px)]
+          xl:min-h-[80vh]
         "
       >
         <div className="max-w-[1100px]">
@@ -87,20 +85,20 @@ export default function Hero() {
           <p
             className="
               font-[700]
-    leading-[1.15]
-    tracking-[-0.03em]
-    text-white
-    drop-shadow-[0_6px_30px_rgba(0,0,0,0.45)]
+              leading-[1.15]
+              tracking-[-0.03em]
+              text-white
+              drop-shadow-[0_6px_30px_rgba(0,0,0,0.45)]
 
-    text-[28px]
+              text-[28px]
 
-    sm:text-[40px]
+              sm:text-[40px]
 
-    md:text-[54px]
+              md:text-[54px]
 
-    lg:text-[66px]
+              lg:text-[66px]
 
-    xl:text-[78px]
+              xl:text-[78px]
             "
           >
             มาติดตามตอนต่อไป
