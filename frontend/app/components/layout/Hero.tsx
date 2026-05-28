@@ -81,7 +81,7 @@ export default function Hero() {
               xl:text-[34px]
             "
           >
-            ทำแล้วได้อะไร
+            T-VER ทำแล้วได้อะไร
           </h1>
 
           <p

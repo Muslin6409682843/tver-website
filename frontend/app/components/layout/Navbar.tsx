@@ -10,7 +10,7 @@ export default function Navbar() {
         w-full
         border-b
         border-white/10
-        bg-[#172671]
+        bg-[#FCF4D9]
         shadow-[0_8px_30px_rgba(0,0,0,0.12)]
       "
     >
@@ -53,7 +53,7 @@ export default function Navbar() {
               whitespace-nowrap
               font-[700]
               tracking-[0.22em]
-              text-white
+              text-[#00AAA0]
 
               text-[24px]
 
@@ -85,7 +85,7 @@ export default function Navbar() {
               font-[700]
               tracking-[0.08em]
 
-              text-[#172671]
+              text-[#00AAA0]
 
               shadow-[0_6px_18px_rgba(0,0,0,0.12)]
 
