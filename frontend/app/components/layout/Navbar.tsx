@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Globe } from "lucide-react";
 
 export default function Navbar() {
@@ -46,29 +47,28 @@ export default function Navbar() {
         <div className="w-[90px] md:w-[120px]" />
 
         {/* CENTER LOGO */}
-        <div className="absolute left-1/2 -translate-x-1/2">
-          <h1
-            className="
-              select-none
-              whitespace-nowrap
-              font-[700]
-              tracking-[0.22em]
-              text-[#00AAA0]
+<div className="absolute left-1/2 -translate-x-1/2">
+  <Image
+    src="/images/logo.png"
+    alt="T-VER Logo"
+    width={220}
+    height={70}
+    priority
+    className="
+      h-auto
 
-              text-[24px]
+      w-[120px]
 
-              sm:text-[28px]
+      sm:w-[140px]
 
-              md:text-[32px]
+      md:w-[170px]
 
-              lg:text-[38px]
+      lg:w-[200px]
 
-              xl:text-[42px]
-            "
-          >
-            T-VER
-          </h1>
-        </div>
+      xl:w-[220px]
+    "
+  />
+</div>
 
         {/* RIGHT LANGUAGE */}
         <div className="ml-auto flex items-center">
