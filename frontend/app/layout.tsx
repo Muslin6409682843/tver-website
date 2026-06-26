@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Thai } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const noto = Noto_Sans_Thai({
@@ -30,10 +31,9 @@ export const metadata: Metadata = {
     "TGO",
   ],
 
- icons: {
-  icon: "/favicon.ico",
-  apple: "/images/icon.png",
-},
+  icons: {
+    apple: "/images/icon.png",
+  },
 
   openGraph: {
     title: "T-VER Thailand",
@@ -44,11 +44,12 @@ export const metadata: Metadata = {
     locale: "th_TH",
     type: "website",
     images: [
-    {
-      url: "/og-image.jpg",
-      width: 1200,
-      height: 630,
-    },
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "T-VER Thailand",
+      },
     ],
   },
 
@@ -67,20 +68,21 @@ export default function RootLayout({
     <html lang="th">
       <body className={noto.className}>
         {children}
+
+        <Script
+          id="organization-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              name: "T-VER Thailand",
+              url: "https://www.t-ver.com",
+              logo: "https://www.t-ver.com/images/logo.png",
+            }),
+          }}
+        />
       </body>
     </html>
   );
 }
-
-<script
-  type="application/ld+json"
-  dangerouslySetInnerHTML={{
-    __html: JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      name: "T-VER Thailand",
-      url: "https://www.t-ver.com",
-      logo: "https://www.t-ver.com/images/logo.png",
-    }),
-  }}
-/>
