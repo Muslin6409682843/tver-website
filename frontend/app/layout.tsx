@@ -30,10 +30,10 @@ export const metadata: Metadata = {
     "TGO",
   ],
 
-  icons: {
-    icon: "/images/icon.png",
-    apple: "/images/icon.png",
-  },
+ icons: {
+  icon: "/favicon.ico",
+  apple: "/images/icon.png",
+},
 
   openGraph: {
     title: "T-VER Thailand",
