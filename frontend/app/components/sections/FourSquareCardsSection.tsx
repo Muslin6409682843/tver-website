@@ -58,16 +58,18 @@ export default function FourSquareCardsSection() {
                 {/* IMAGE */}
                 <div
                   className="
-                    relative
-                    h-[280px]
-                    w-full
-                    overflow-hidden
+  relative
+  h-[280px]
+  w-full
+  overflow-hidden
 
-                    sm:h-[360px]
+  sm:h-[360px]
 
-                    lg:h-auto
-                    lg:w-1/2
-                  "
+  lg:w-1/2
+  lg:min-h-[400px]
+xl:min-h-[430px]
+2xl:min-h-[460px]
+"
                 >
                   <img
                     src={card.image}
@@ -85,22 +87,29 @@ export default function FourSquareCardsSection() {
                 {/* TEXT SIDE */}
                 <div
                   className={`
-                    flex
-                    w-full
-                    items-center
+  flex
+  w-full
+  items-center
 
-                    px-6
-                    py-12
+  px-6
+  py-12
 
-                    sm:px-10
-                    sm:py-16
+  sm:px-10
+  sm:py-16
 
-                    lg:w-1/2
-                    lg:px-[6vw]
-                    lg:py-20
+  lg:w-1/2
+  lg:min-h-[400px]
+  lg:px-[6vw]
+  lg:py-16
 
-                    ${isEven ? "bg-[#FF7A5A]" : "bg-[#FFB85F]"}
-                  `}
+  xl:min-h-[430px]
+  xl:py-18
+
+  2xl:min-h-[460px]
+  2xl:py-20
+
+  ${isEven ? "bg-[#FF7A5A]" : "bg-[#FFB85F]"}
+`}
                 >
                   <motion.div
                     initial="hidden"

@@ -59,34 +59,57 @@ export default function FeaturedBatteryProject() {
           </Link>
         </div>
 
-        {/* Right */}
-        <div className="flex flex-1 justify-center">
+{/* Right */}
+<div className="flex flex-1 justify-center">
 
-          <div className="relative">
+  <div className="flex w-full max-w-[420px] flex-col gap-4">
 
-            {/* Glow */}
-            <div className="absolute inset-0 rounded-[36px] bg-[#00AAA0]/20 blur-3xl" />
+    {/* Battery */}
+    <div className="relative overflow-hidden rounded-[22px] border border-white/10 bg-white/5 shadow-xl">
 
-            {/* Glass Card */}
-            <div className="relative rounded-[36px] border border-white/10 bg-white/5 p-10 backdrop-blur-xl shadow-[0_20px_80px_rgba(0,0,0,.45)]">
+      <div className="relative aspect-[1.7/1]">
 
-              {/* Circle */}
-              <div className="absolute left-1/2 top-1/2 h-72 w-72 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#00AAA0]/15 blur-[70px]" />
+        <Image
+          src="/images/ev-battery.png"
+          alt="EV Battery"
+          fill
+          priority
+          className="object-cover"
+        />
 
-              <Image
-                src="/images/ev-battery.png"
-                alt="Second Life Battery"
-                width={520}
-                height={520}
-                priority
-                className="relative z-10 select-none"
-              />
-
-            </div>
-
-          </div>
-
+        <div className="absolute left-4 top-4 rounded-full bg-[#00AAA0]/90 px-3 py-1.5 text-[11px] font-semibold text-white backdrop-blur">
+          Second Life Battery
         </div>
+
+      </div>
+
+    </div>
+
+
+    {/* Solar */}
+    <div className="relative overflow-hidden rounded-[22px] border border-white/10 bg-white/5 shadow-xl">
+
+      <div className="relative aspect-[1.7/1]">
+
+        <Image
+          src="/images/solar-roof.png"
+          alt="Solar Roof"
+          fill
+          className="object-cover"
+        />
+
+        <div className="absolute left-4 top-4 rounded-full bg-[#00AAA0]/90 px-3 py-1.5 text-[11px] font-semibold text-white backdrop-blur">
+          Solar Energy
+        </div>
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</div>
 
       </div>
 

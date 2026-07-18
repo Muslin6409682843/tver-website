@@ -18,60 +18,55 @@ export default function Navbar() {
       <div
         className="
           relative
-          mx-auto
-          flex
           w-full
-          max-w-[1440px]
-          items-center
-          justify-between
 
           h-[78px]
 
-          px-5
-
           sm:h-[88px]
-          sm:px-8
-
           md:h-[96px]
-          md:px-10
-
           lg:h-[104px]
-          lg:px-12
-
           xl:h-[112px]
-
           2xl:h-[118px]
         "
       >
-        {/* LEFT SPACE */}
-        <div className="w-[90px] md:w-[120px]" />
-
         {/* CENTER LOGO */}
-<div className="absolute left-1/2 -translate-x-1/2">
-  <Image
-    src="/images/logo.png"
-    alt="T-VER Logo"
-    width={220}
-    height={70}
-    priority
-    className="
-      h-auto
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+          <Image
+            src="/images/logo.png"
+            alt="T-VER Logo"
+            width={220}
+            height={70}
+            priority
+            className="
+              h-auto
+              w-[120px]
 
-      w-[120px]
+              sm:w-[140px]
 
-      sm:w-[140px]
+              md:w-[170px]
 
-      md:w-[170px]
+              lg:w-[200px]
 
-      lg:w-[200px]
-
-      xl:w-[220px]
-    "
-  />
-</div>
+              xl:w-[220px]
+            "
+          />
+        </div>
 
         {/* RIGHT LANGUAGE */}
-        <div className="ml-auto flex items-center">
+        <div
+          className="
+            absolute
+            right-4
+            top-1/2
+            -translate-y-1/2
+
+            sm:right-6
+            md:right-8
+            lg:right-10
+            xl:right-12
+            2xl:right-16
+          "
+        >
           <button
             className="
               flex
@@ -84,7 +79,6 @@ export default function Navbar() {
 
               font-[700]
               tracking-[0.08em]
-
               text-[#00AAA0]
 
               shadow-[0_6px_18px_rgba(0,0,0,0.12)]
