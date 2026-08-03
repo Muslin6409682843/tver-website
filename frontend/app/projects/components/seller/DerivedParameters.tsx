@@ -157,17 +157,16 @@ export default function DerivedParameters({ data }: Props) {
 
           <p className="text-gray-500">%</p>
         </div>
-
       </div>
 
-      
-        <CalculationTable
-  fSoc={fSoc}
-  fT={fT}
-  fDod={fDod}
-  high={high}
-  low={low}
-/>
+      <CalculationTable
+        fSoc={fSoc}
+        fT={fT}
+        fDod={fDod}
+        high={high}
+        low={low}
+        ageInMonths={ageInMonths}
+      />
     </section>
   );
 }

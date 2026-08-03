@@ -9,6 +9,7 @@ type Props = {
   fDod: number;
   high: number;
   low: number;
+  ageInMonths: number;
 };
 
 export default function CalculationTable({
@@ -17,10 +18,11 @@ export default function CalculationTable({
   fDod,
   high,
   low,
+  ageInMonths,
 }: Props) {
   const [showTable, setShowTable] = useState(false);
 
-  const batteryTable = getBatteryTable(fSoc, fT, fDod, high, low);
+  const batteryTable = getBatteryTable(fSoc, fT, fDod, high, low, ageInMonths);
 
   return (
     <section className="mx-auto mt-10 max-w-6xl rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
@@ -32,11 +34,10 @@ export default function CalculationTable({
           </h2>
 
           <p className="mt-2 text-gray-600">
-            ตารางนี้ใช้สำหรับการคำนวณภายในระบบ
+            ตารางแสดงอายุรถปัจจุบันและการคาดการณ์อีก 10 ปี
           </p>
         </div>
 
-        {/* Toggle Button */}
         <button
           type="button"
           onClick={() => setShowTable((prev) => !prev)}
@@ -52,7 +53,9 @@ export default function CalculationTable({
           <table className="w-full min-w-[1200px] border-collapse">
             <thead className="bg-[#F8FFFE]">
               <tr>
-                <th className="border-b px-6 py-4 text-left">Year</th>
+                <th className="w-[160px] min-w-[160px] whitespace-nowrap border-b px-6 py-4 text-left">
+  Year
+</th>
 
                 <th className="border-b px-6 py-4 text-left">N</th>
 
@@ -93,7 +96,9 @@ export default function CalculationTable({
             <tbody>
               {batteryTable.map((row) => (
                 <tr key={row.year} className="hover:bg-[#F8FFFE]">
-                  <td className="border-b px-6 py-4">{row.year}</td>
+                  <td className="w-[160px] min-w-[160px] whitespace-nowrap border-b px-6 py-4 font-semibold">
+  {row.year} ปี {row.month} เดือน
+</td>
 
                   <td className="border-b px-6 py-4">
                     {row.N.toLocaleString()}
@@ -103,9 +108,7 @@ export default function CalculationTable({
                     {row.t.toLocaleString()}
                   </td>
 
-                  <td className="border-b px-6 py-4">
-                    {row.ft.toFixed(5)}
-                  </td>
+                  <td className="border-b px-6 py-4">{row.ft.toFixed(5)}</td>
 
                   <td className="border-b px-6 py-4 font-semibold text-[#00AAA0]">
                     {row.fCal.toFixed(4)}
