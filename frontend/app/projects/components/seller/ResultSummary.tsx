@@ -14,64 +14,63 @@ export default function ResultSummary({
   if (!data) return null;
 
   return (
-    <section className="mx-auto mb-10 max-w-6xl rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+    <section className="mx-auto mb-10 max-w-7xl rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
 
-      <h2 className="text-3xl font-bold">
+      {/* Header */}
+      <h2 className="text-3xl font-bold text-gray-900">
         สรุปข้อมูล
       </h2>
 
-      <div className="mt-8 grid gap-4 md:grid-cols-2">
+      <p className="mt-2 text-gray-600">
+        ข้อมูลรถและแบตเตอรี่ที่ใช้ในการประเมิน
+      </p>
+
+      {/* ข้อมูล */}
+      <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
 
         <div>
           <strong>ยี่ห้อรถ</strong>
-
-          <p>{data.brand}</p>
+          <p className="mt-1">{data.brand}</p>
         </div>
 
         <div>
           <strong>รุ่นรถ</strong>
-
-          <p>{data.model}</p>
+          <p className="mt-1">{data.model}</p>
         </div>
 
         <div>
           <strong>ปีที่ออกรถ</strong>
-
-          <p>{data.year}</p>
+          <p className="mt-1">{data.year}</p>
         </div>
 
         <div>
           <strong>เดือน</strong>
-
-          <p>{data.month}</p>
+          <p className="mt-1">{data.month}</p>
         </div>
 
         <div>
           <strong>เลขไมล์</strong>
-
-          <p>{data.mileage} km</p>
+          <p className="mt-1">{data.mileage} km</p>
         </div>
 
         <div>
-  <strong>ระยะทางเต็มแบต (Full Range)</strong>
-
-  <p>{data.fullRange} km</p>
-</div>
+          <strong>ระยะทางเต็มแบต (Full Range)</strong>
+          <p className="mt-1">{data.fullRange} km</p>
+        </div>
 
         <div>
           <strong>ความถี่การชาร์จ</strong>
-
-          <p>{data.chargeFrequency}</p>
+          <p className="mt-1">{data.chargeFrequency}</p>
         </div>
 
         <div>
           <strong>หยุดชาร์จที่</strong>
-
-          <p>{data.chargeLimit}%</p>
+          <p className="mt-1">{data.chargeLimit}%</p>
         </div>
 
       </div>
 
+      {/* รูปภาพ */}
       {images.length > 0 && (
         <div className="mt-10 grid grid-cols-2 gap-4 md:grid-cols-5">
 
@@ -79,7 +78,7 @@ export default function ResultSummary({
             <Image
               key={index}
               src={URL.createObjectURL(image)}
-              alt=""
+              alt={`รูปแบตเตอรี่ ${index + 1}`}
               width={250}
               height={250}
               className="aspect-square rounded-xl object-cover"
