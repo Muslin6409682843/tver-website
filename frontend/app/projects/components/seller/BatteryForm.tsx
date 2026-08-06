@@ -1,11 +1,16 @@
 "use client";
 
+import { useState } from "react";
+
 type BatteryFormProps = {
   onCalculate: (data: Record<string, string>) => void;
 };
 
 export default function BatteryForm({ onCalculate }: BatteryFormProps) {
   const currentYear = new Date().getFullYear();
+
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
 
   const years = Array.from(
     { length: currentYear - 2010 + 1 },
@@ -27,25 +32,37 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
     "ธันวาคม",
   ];
 
-  const brands = [
-    "BYD",
-    "Tesla",
-    "MG",
-    "NETA",
-    "GWM",
-    "AION",
-    "Deepal",
-    "ORA",
-    "Volvo",
-    "BMW",
-    "Mercedes-Benz",
-    "Hyundai",
-    "Kia",
-    "Nissan",
-    "Audi",
-    "Porsche",
-    "อื่น ๆ",
-  ];
+  const brands = ["BYD", "Tesla", "MG", "NETA", "GWM"];
+
+  const carModels: Record<string, Record<string, number>> = {
+    BYD: {
+      "Atto 3": 400,
+      Dolphin: 490,
+      Seal: 580,
+    },
+
+    Tesla: {
+      "Model 3": 513,
+      "Model Y": 455,
+    },
+
+    MG: {
+      "MG4 Electric": 425,
+      "MG ZS EV": 320,
+      "MG EP": 380,
+    },
+
+    NETA: {
+      "NETA V": 384,
+      "NETA X": 480,
+    },
+
+    GWM: {
+      "ORA Good Cat": 500,
+      "ORA Good Cat GT": 480,
+      "TANK 300 EV": 500,
+    },
+  };
 
   const chargeOptions = [
     { value: "ทุกวัน", label: "ทุกวัน" },
@@ -103,8 +120,12 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
 
             <select
               required
-              defaultValue=""
               name="brand"
+              value={selectedBrand}
+              onChange={(e) => {
+                setSelectedBrand(e.target.value);
+                setSelectedModel("");
+              }}
               className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none transition focus:border-[#00AAA0] focus:ring-2 focus:ring-[#00AAA0]/20"
             >
               <option value="" disabled>
@@ -124,14 +145,27 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
               รุ่นรถ <span className="text-red-500">*</span>
             </label>
 
-            <input
+            <select
               required
-              type="text"
               name="model"
-              placeholder="เช่น Atto 3"
-              className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-[#00AAA0] focus:ring-2 focus:ring-[#00AAA0]/20"
-            />
+              value={selectedModel}
+              disabled={!selectedBrand}
+              onChange={(e) => setSelectedModel(e.target.value)}
+              className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none transition focus:border-[#00AAA0] focus:ring-2 focus:ring-[#00AAA0]/20 disabled:bg-gray-100"
+            >
+              <option value="">
+                {selectedBrand ? "เลือกรุ่นรถ" : "กรุณาเลือกยี่ห้อก่อน"}
+              </option>
+
+              {selectedBrand &&
+                Object.keys(carModels[selectedBrand]).map((model) => (
+                  <option key={model} value={model}>
+                    {model}
+                  </option>
+                ))}
+            </select>
           </div>
+
           {/* Year */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -245,17 +279,23 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
               ระยะทางที่รถวิ่งได้เมื่อแบตเตอรี่เต็ม 100% (km)
-              <span className="text-red-500">*</span>
             </label>
 
             <input
               type="number"
               name="fullRange"
-              required
-              min="0"
-              placeholder="เช่น 400"
-              className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none transition focus:border-[#00AAA0] focus:ring-2 focus:ring-[#00AAA0]/20"
+              readOnly
+              value={
+                selectedBrand && selectedModel
+                  ? carModels[selectedBrand][selectedModel]
+                  : ""
+              }
+              className="w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-3"
             />
+
+            <p className="mt-2 text-sm text-gray-500">
+              ระบบดึงข้อมูลจากรุ่นรถที่เลือก
+            </p>
           </div>
         </div>
 
