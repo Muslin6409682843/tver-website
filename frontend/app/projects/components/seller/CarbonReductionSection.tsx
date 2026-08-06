@@ -1,5 +1,7 @@
 "use client";
 
+import { Leaf, Cloud, Sparkles } from "lucide-react";
+
 type Props = {
   fullRange: number;
   futureCapacityPercentage: number;
@@ -87,16 +89,31 @@ export default function CarbonReductionSection({
 
       <div className="mt-8 grid gap-6 md:grid-cols-2">
         {/* CO2 */}
-        <div className="rounded-2xl border border-[#8ED2C9] bg-[#F8FFFE] p-8">
-          <p className="text-lg font-semibold text-gray-900">
-  ศักยภาพการลด CO₂
-  <br />
-  <span className="text-base font-medium text-gray-600">
-    (กรณีใช้งานเต็มศักยภาพร่วมกับระบบโซลาร์เซลล์)
-  </span>
-</p>
+        <div className="rounded-2xl border border-[#8ED2C9] bg-[#F8FFFE] p-8 relative overflow-hidden">
+          {/* Decoration */}
+          <Cloud
+            className="absolute right-5 top-5 text-[#00AAA0]/15"
+            size={70}
+          />
 
-          <div className="mt-3 flex items-baseline gap-2">
+          <Sparkles
+            className="absolute bottom-5 right-8 text-[#00AAA0]/10"
+            size={30}
+          />
+
+          <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#00AAA0]/10">
+            <Cloud className="text-[#00AAA0]" size={28} />
+          </div>
+
+          <p className="text-lg font-semibold text-gray-900">
+            ศักยภาพการลด CO₂
+          </p>
+
+          <p className="mt-1 text-sm text-gray-500">
+            (กรณีใช้งานเต็มศักยภาพร่วมกับระบบโซลาร์เซลล์)
+          </p>
+
+          <div className="mt-5 flex items-baseline gap-2">
             <span className="text-5xl font-bold text-[#00AAA0]">
               {Math.round(annualCO2Reduction).toLocaleString()}
             </span>
@@ -105,18 +122,38 @@ export default function CarbonReductionSection({
           </div>
 
           <p className="mt-4 text-sm leading-relaxed text-gray-500">
-            ประมาณการศักยภาพสูงสุดในการลดการปล่อยก๊าซเรือนกระจก จากการนำแบตเตอรี่ Second-Life ไปใช้งานร่วมกับระบบกักเก็บพลังงาน (Battery Energy Storage System: BESS)
+            ประมาณการจากความจุแบตเตอรี่ที่สามารถนำกลับมาใช้งาน
+            ในระบบกักเก็บพลังงาน (Second-Life Battery Energy Storage)
           </p>
         </div>
 
         {/* Trees */}
-        <div className="rounded-2xl border border-[#8ED2C9] bg-[#F8FFFE] p-8">
+        <div className="rounded-2xl border border-[#8ED2C9] bg-[#F8FFFE] p-8 relative overflow-hidden">
+          {/* Decoration */}
+          <Leaf
+            className="absolute right-5 top-5 text-green-500/15"
+            size={70}
+          />
+
+          <Leaf
+            className="absolute bottom-5 right-8 rotate-12 text-green-600/10"
+            size={34}
+          />
+
+          <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-green-500/10">
+            <Leaf className="text-green-600" size={28} />
+          </div>
+
           <p className="text-lg font-semibold text-gray-900">
-            ศักยภาพเทียบเท่าการปลูกต้นไม้
+            เทียบเท่าการปลูกต้นไม้
           </p>
 
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-5xl font-bold text-[#00AAA0]">
+          <p className="mt-1 text-sm text-gray-500">
+            (กรณีใช้งานเต็มศักยภาพร่วมกับระบบโซลาร์เซลล์)
+          </p>
+
+          <div className="mt-5 flex items-baseline gap-2">
+            <span className="text-5xl font-bold text-green-600">
               {Math.round(equivalentTrees).toLocaleString()}
             </span>
 
@@ -124,7 +161,7 @@ export default function CarbonReductionSection({
           </div>
 
           <p className="mt-4 text-sm leading-relaxed text-gray-500">
-            คำนวณจากปริมาณการลดการปล่อยก๊าซ CO₂ ตามสมมติฐานการใช้งานเต็มศักยภาพตลอดระยะเวลา 10 ปี
+            เทียบจากปริมาณ CO₂ ที่ลดได้สะสมตลอดระยะเวลา 10 ปี
           </p>
         </div>
       </div>
@@ -208,7 +245,14 @@ export default function CarbonReductionSection({
       <div className="mt-6 rounded-2xl bg-gray-50 p-5">
         <p className="text-sm leading-relaxed text-gray-500">
           <span className="font-semibold text-gray-700">หมายเหตุ:</span>{" "}
-          ผลการคำนวณนี้เป็นการประมาณการเชิงทฤษฎี (Theoretical Estimation) โดยสมมติให้แบตเตอรี่ Second-Life ถูกนำไปใช้งานเพื่อกักเก็บพลังงานจากระบบโซลาร์เซลล์อย่างสม่ำเสมอทุกวันตลอดทั้งปี ภายใต้ประสิทธิภาพของแบตเตอรี่ที่คำนวณได้จากระบบ ดังนั้นผลลัพธ์จึงแสดง ศักยภาพสูงสุดในการลดการปล่อยก๊าซเรือนกระจก ในทางปฏิบัติ การใช้งานจริงมักมีวันที่ผลิตไฟฟ้าไม่เต็มกำลัง วันที่ไม่มีการใช้งาน และข้อจำกัดของระบบ ทำให้ปริมาณ CO₂ ที่ลดได้จริงอาจต่ำกว่าค่าประมาณนี้ ทั้งนี้ควรพิจารณาร่วมกับการออกแบบและการใช้งานระบบโซลาร์เซลล์ของผู้ใช้งานปลายทาง
+          ผลการคำนวณนี้เป็นการประมาณการเชิงทฤษฎี (Theoretical Estimation)
+          โดยสมมติให้แบตเตอรี่ Second-Life
+          ถูกนำไปใช้งานเพื่อกักเก็บพลังงานจากระบบโซลาร์เซลล์อย่างสม่ำเสมอทุกวันตลอดทั้งปี
+          ภายใต้ประสิทธิภาพของแบตเตอรี่ที่คำนวณได้จากระบบ ดังนั้นผลลัพธ์จึงแสดง
+          ศักยภาพสูงสุดในการลดการปล่อยก๊าซเรือนกระจก ในทางปฏิบัติ
+          การใช้งานจริงมักมีวันที่ผลิตไฟฟ้าไม่เต็มกำลัง วันที่ไม่มีการใช้งาน
+          และข้อจำกัดของระบบ ทำให้ปริมาณ CO₂ ที่ลดได้จริงอาจต่ำกว่าค่าประมาณนี้
+          ทั้งนี้ควรพิจารณาร่วมกับการออกแบบและการใช้งานระบบโซลาร์เซลล์ของผู้ใช้งานปลายทาง
         </p>
       </div>
     </section>
