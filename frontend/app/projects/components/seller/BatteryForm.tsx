@@ -49,7 +49,7 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
 
   const chargeOptions = [
     { value: "ทุกวัน", label: "ทุกวัน" },
-    { value: "4–6 ครั้ง/สัปดาห์", label: "4–6 ครั้ง/สัปดาห์" },
+    { value: "วันเว้นวัน", label: "วันเว้นวัน" },
     { value: "2–3 ครั้ง/สัปดาห์", label: "2–3 ครั้ง/สัปดาห์" },
     { value: "1 ครั้ง/สัปดาห์", label: "1 ครั้ง/สัปดาห์" },
     { value: "2–3 ครั้ง/เดือน", label: "2–3 ครั้ง/เดือน" },
@@ -57,17 +57,17 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
   ];
 
   const chargeLimitOptions = [
-    { value: "50", label: "50%" },
-    { value: "55", label: "55%" },
-    { value: "60", label: "60%" },
-    { value: "65", label: "65%" },
-    { value: "70", label: "70%" },
-    { value: "75", label: "75%" },
-    { value: "80", label: "80%" },
-    { value: "85", label: "85%" },
-    { value: "90", label: "90%" },
-    { value: "95", label: "95%" },
     { value: "100", label: "100%" },
+    { value: "95", label: "95%" },
+    { value: "90", label: "90%" },
+    { value: "85", label: "85%" },
+    { value: "80", label: "80%" },
+    { value: "75", label: "75%" },
+    { value: "70", label: "70%" },
+    { value: "65", label: "65%" },
+    { value: "60", label: "60%" },
+    { value: "55", label: "55%" },
+    { value: "50", label: "50%" },
   ];
 
   return (
@@ -264,7 +264,7 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
             type="submit"
             className="rounded-2xl bg-[#00AAA0] px-12 py-4 text-lg font-semibold text-white transition hover:bg-[#00958c] hover:shadow-lg"
           >
-            คำนวณราคาแบตเตอรี่
+            คำนวณประสิทธิภาพแบตเตอรี่
           </button>
         </div>
       </form>

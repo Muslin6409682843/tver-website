@@ -1,15 +1,20 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CalculationTable from "./CalculationTable";
 import { getBatteryTable } from "../../lib/batteryTable";
 
 type Props = {
   data: any;
   onCalculated: (futureCapacityPercentage: number) => void;
+  onWarning: (warning: boolean) => void;
 };
 
-export default function DerivedParameters({ data, onCalculated }: Props) {
+export default function DerivedParameters({
+  data,
+  onCalculated,
+  onWarning,
+}: Props) {
   if (!data) return null;
 
   const now = new Date();
@@ -32,10 +37,10 @@ export default function DerivedParameters({ data, onCalculated }: Props) {
 
   const frequencyMap: Record<string, number> = {
     ทุกวัน: 30.44,
-    "4–6 ครั้ง/สัปดาห์": 21.7,
-    "2–3 ครั้ง/สัปดาห์": 10.9,
-    "1 ครั้ง/สัปดาห์": 4.3,
-    "2–3 ครั้ง/เดือน": 2.5,
+    วันเว้นวัน: 15,
+    "2–3 ครั้ง/สัปดาห์": 10,
+    "1 ครั้ง/สัปดาห์": 4,
+    "2–3 ครั้ง/เดือน": 2,
     "1 ครั้ง/เดือน": 1,
     "น้อยกว่า 1 ครั้ง/เดือน": 0.5,
   };
@@ -65,6 +70,12 @@ export default function DerivedParameters({ data, onCalculated }: Props) {
   const fullRange = Number(data.fullRange);
 
   const low = fullRange > 0 ? high - (kmPerCharge / fullRange) * 100 : 0;
+
+  const isInvalidData = low < 0;
+
+  useEffect(() => {
+    onWarning(isInvalidData);
+  }, [isInvalidData, onWarning]);
 
   // -------------------------
   // SOC กลาง
@@ -245,7 +256,7 @@ export default function DerivedParameters({ data, onCalculated }: Props) {
       <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-5">
         {/* อายุรถ */}
         <div className="rounded-2xl bg-[#F8FFFE] p-6">
-          <p className="text-sm text-gray-500">อายุรถ</p>
+          <p className="text-sm text-gray-500">อายุแบตเตอรี่</p>
 
           <p className="mt-2 text-3xl font-bold text-[#00AAA0]">
             {ageInMonths}
@@ -258,9 +269,7 @@ export default function DerivedParameters({ data, onCalculated }: Props) {
         <div className="rounded-2xl bg-[#F8FFFE] p-6">
           <p className="text-sm text-gray-500">ความถี่ชาร์จ</p>
 
-          <p className="mt-2 text-3xl font-bold text-[#00AAA0]">
-            {frequency.toFixed(2)}
-          </p>
+          <p className="mt-2 text-3xl font-bold text-[#00AAA0]">{frequency}</p>
 
           <p className="text-gray-500">ครั้ง/เดือน</p>
         </div>
