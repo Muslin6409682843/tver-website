@@ -4,14 +4,12 @@ type BatteryFormProps = {
   onCalculate: (data: Record<string, string>) => void;
 };
 
-export default function BatteryForm({
-  onCalculate,
-}: BatteryFormProps) {
+export default function BatteryForm({ onCalculate }: BatteryFormProps) {
   const currentYear = new Date().getFullYear();
 
   const years = Array.from(
     { length: currentYear - 2010 + 1 },
-    (_, i) => currentYear - i
+    (_, i) => currentYear - i,
   );
 
   const months = [
@@ -50,13 +48,13 @@ export default function BatteryForm({
   ];
 
   const chargeOptions = [
-  { value: "ทุกวัน", label: "ทุกวัน" },
-  { value: "4–6 ครั้ง/สัปดาห์", label: "4–6 ครั้ง/สัปดาห์" },
-  { value: "2–3 ครั้ง/สัปดาห์", label: "2–3 ครั้ง/สัปดาห์" },
-  { value: "1 ครั้ง/สัปดาห์", label: "1 ครั้ง/สัปดาห์" },
-  { value: "2–3 ครั้ง/เดือน", label: "2–3 ครั้ง/เดือน" },
-  { value: "1 ครั้ง/เดือน", label: "1 ครั้ง/เดือน" },
-];
+    { value: "ทุกวัน", label: "ทุกวัน" },
+    { value: "4–6 ครั้ง/สัปดาห์", label: "4–6 ครั้ง/สัปดาห์" },
+    { value: "2–3 ครั้ง/สัปดาห์", label: "2–3 ครั้ง/สัปดาห์" },
+    { value: "1 ครั้ง/สัปดาห์", label: "1 ครั้ง/สัปดาห์" },
+    { value: "2–3 ครั้ง/เดือน", label: "2–3 ครั้ง/เดือน" },
+    { value: "1 ครั้ง/เดือน", label: "1 ครั้ง/เดือน" },
+  ];
 
   const chargeLimitOptions = [
     { value: "50", label: "50%" },
@@ -74,31 +72,29 @@ export default function BatteryForm({
 
   return (
     <section className="mx-auto mt-10 max-w-6xl rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
-      <h2 className="text-3xl font-bold text-gray-900">
-        กรอกข้อมูลรถยนต์
-      </h2>
+      <h2 className="text-3xl font-bold text-gray-900">กรอกข้อมูลรถยนต์</h2>
 
       <p className="mt-3 text-gray-600">
-        กรุณากรอกข้อมูลให้ครบถ้วน (
-        <span className="text-red-500">*</span> บังคับกรอก)
+        กรุณากรอกข้อมูลให้ครบถ้วน (<span className="text-red-500">*</span>{" "}
+        บังคับกรอก)
       </p>
 
       <form
         className="mt-8"
         onSubmit={(e) => {
-  e.preventDefault();
+          e.preventDefault();
 
-  const form = new FormData(e.currentTarget);
+          const form = new FormData(e.currentTarget);
 
-  const data = Object.fromEntries(
-    form.entries()
-  ) as Record<string, string>;
+          const data = Object.fromEntries(form.entries()) as Record<
+            string,
+            string
+          >;
 
-  onCalculate(data);
-}}
+          onCalculate(data);
+        }}
       >
         <div className="grid gap-6 md:grid-cols-2">
-
           {/* Brand */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -122,7 +118,6 @@ export default function BatteryForm({
               ))}
             </select>
           </div>
-
           {/* Model */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -137,7 +132,6 @@ export default function BatteryForm({
               className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none transition focus:border-[#00AAA0] focus:ring-2 focus:ring-[#00AAA0]/20"
             />
           </div>
-
           {/* Year */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -161,7 +155,6 @@ export default function BatteryForm({
               ))}
             </select>
           </div>
-
           {/* Month */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -185,8 +178,7 @@ export default function BatteryForm({
               ))}
             </select>
           </div>
-
-                    {/* Charge Frequency */}
+          {/* Charge Frequency */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
               ปกติคุณชาร์จแบตเตอรี่บ่อยแค่ไหน{" "}
@@ -210,7 +202,6 @@ export default function BatteryForm({
               ))}
             </select>
           </div>
-
           {/* Charge Limit */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -235,12 +226,10 @@ export default function BatteryForm({
               ))}
             </select>
           </div>
-
           {/* Mileage */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
-              เลขไมล์สะสมของรถ (กม.){" "}
-              <span className="text-red-500">*</span>
+              เลขไมล์สะสมของรถ (กม.) <span className="text-red-500">*</span>
             </label>
 
             <input
@@ -252,24 +241,22 @@ export default function BatteryForm({
               className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none transition focus:border-[#00AAA0] focus:ring-2 focus:ring-[#00AAA0]/20"
             />
           </div>
-
           {/* Full Range */}
           <div>
-  <label className="mb-2 block text-sm font-medium text-gray-700">
-    ระยะทางที่รถวิ่งได้เมื่อแบตเตอรี่เต็ม 100% (km)
-    <span className="text-red-500">*</span>
-  </label>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              ระยะทางที่รถวิ่งได้เมื่อแบตเตอรี่เต็ม 100% (km)
+              <span className="text-red-500">*</span>
+            </label>
 
-  <input
-    type="number"
-    name="fullRange"
-    required
-    min="0"
-    placeholder="เช่น 400"
-    className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none transition focus:border-[#00AAA0] focus:ring-2 focus:ring-[#00AAA0]/20"
-  />
-</div>
-
+            <input
+              type="number"
+              name="fullRange"
+              required
+              min="0"
+              placeholder="เช่น 400"
+              className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none transition focus:border-[#00AAA0] focus:ring-2 focus:ring-[#00AAA0]/20"
+            />
+          </div>
         </div>
 
         <div className="mt-10 flex justify-center">

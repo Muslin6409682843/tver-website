@@ -1,13 +1,15 @@
 "use client";
 
+import { useEffect } from "react";
 import CalculationTable from "./CalculationTable";
 import { getBatteryTable } from "../../lib/batteryTable";
 
 type Props = {
   data: any;
+  onCalculated: (futureCapacityPercentage: number) => void;
 };
 
-export default function DerivedParameters({ data }: Props) {
+export default function DerivedParameters({ data, onCalculated }: Props) {
   if (!data) return null;
 
   const now = new Date();
@@ -121,35 +123,107 @@ export default function DerivedParameters({ data }: Props) {
   const currentYears = Math.floor(ageInMonths / 12);
 
   // =====================================================
-  // คำนวณพื้นที่ใต้กราฟในช่วงปัจจุบัน → อีก 10 ปี
+  // ฟังก์ชันคำนวณ SOH จากอายุเป็นเดือน
+  // ใช้สูตรเดียวกับ getBatteryTable
   // =====================================================
 
-  const forecastEndYear = currentYears + 10;
+  const calculateSOH = (months: number) => {
+    const calculationYears = months / 12;
 
-  const forecastRows = batteryTable.filter(
-    (row) => row.year >= currentYears && row.year <= forecastEndYear,
+    const N = calculationYears * 365;
+
+    const t = N * 24 * 60 * 60;
+
+    const ft = 4.1375e-10 * t;
+
+    const fCal = ft * fSoc * fT;
+
+    const fCycle = fDod * fSoc * fT * N;
+
+    const fD = fCal + fCycle;
+
+    // SOH NB
+    const L = 1 - 0.0575 * Math.exp(fD * -121) - (1 - 0.0575) * Math.exp(-fD);
+
+    // SOH SLB
+    const LSLB = 1 - (1 - 0.2) * Math.exp(-fD);
+
+    const sohSlb = (1 - LSLB) * 100;
+
+    const sohNb = (1 - L) * 100;
+
+    return {
+      sohSlb,
+      sohNb,
+    };
+  };
+
+  // =====================================================
+  // คำนวณพื้นที่ใต้กราฟ
+  //
+  // NB  : ปี 0 → ปี 10
+  // SLB : อายุรถปัจจุบัน → อายุรถปัจจุบัน + 10 ปี
+  //
+  // ทั้งสองกรณีมีระยะเวลาใช้งานที่นำมาเปรียบเทียบ = 10 ปี
+  // =====================================================
+
+  // -----------------------------------------------------
+  // 1. พื้นที่ใต้กราฟของแบตเตอรี่ใหม่
+  //    เริ่มตั้งแต่ปี 0 → ปี 10
+  // -----------------------------------------------------
+
+  const nbRows = batteryTable.filter(
+    (row) => row.calculationMonths >= 0 && row.calculationMonths <= 120,
+  );
+
+  let areaNb = 0;
+
+  for (let i = 0; i < nbRows.length - 1; i++) {
+    const current = nbRows[i];
+    const next = nbRows[i + 1];
+
+    const deltaYears =
+      (next.calculationMonths - current.calculationMonths) / 12;
+
+    areaNb += ((current.sohNb + next.sohNb) / 2) * deltaYears;
+  }
+
+  // -----------------------------------------------------
+  // 2. พื้นที่ใต้กราฟของแบตเตอรี่เก่า
+  //    เริ่มจากอายุรถปัจจุบัน → อีก 10 ปี
+  // -----------------------------------------------------
+
+  const slbStartMonths = ageInMonths;
+  const slbEndMonths = ageInMonths + 120;
+
+  const slbRows = batteryTable.filter(
+    (row) =>
+      row.calculationMonths >= slbStartMonths &&
+      row.calculationMonths <= slbEndMonths,
   );
 
   let areaSlb = 0;
-  let areaNb = 0;
 
-  for (let i = 0; i < forecastRows.length - 1; i++) {
-    const current = forecastRows[i];
-    const next = forecastRows[i + 1];
+  for (let i = 0; i < slbRows.length - 1; i++) {
+    const current = slbRows[i];
+    const next = slbRows[i + 1];
 
-    const x1 = current.year + current.month / 12;
+    const deltaYears =
+      (next.calculationMonths - current.calculationMonths) / 12;
 
-    const x2 = next.year + next.month / 12;
-
-    const deltaX = x2 - x1;
-
-    areaSlb += ((current.sohSlb + next.sohSlb) / 2) * deltaX;
-
-    areaNb += ((current.sohNb + next.sohNb) / 2) * deltaX;
+    areaSlb += ((current.sohSlb + next.sohSlb) / 2) * deltaYears;
   }
+
+  // -----------------------------------------------------
+  // 3. เปรียบเทียบพื้นที่ใต้กราฟ
+  // -----------------------------------------------------
 
   const futureCapacityPercentage =
     areaNb > 0 ? Math.round((areaSlb / areaNb) * 100) : 0;
+
+  useEffect(() => {
+    onCalculated(futureCapacityPercentage);
+  }, [futureCapacityPercentage, onCalculated]);
 
   const currentRow =
     batteryTable.find((row) => row.year === currentYears) ?? batteryTable[0];
@@ -254,27 +328,27 @@ export default function DerivedParameters({ data }: Props) {
         </div>
       </div>
 
-              {/* ================================================= */}
-        {/* การเก็บประจุในอนาคต 10 ปี */}
-        {/* ================================================= */}
+      {/* ================================================= */}
+      {/* การเก็บประจุในอนาคต 10 ปี */}
+      {/* ================================================= */}
+      <div className="mt-6 rounded-2xl border border-[#8ED2C9] bg-[#F8FFFE] p-6">
+        <p className="text-xl font-semibold leading-relaxed text-gray-900">
+          หากนำแบตเตอรี่เก่าลูกนี้มาใช้งานต่ออีก 10 ปี
+          ความสามารถในการเก็บประจุโดยรวมจะอยู่ที่ประมาณ{" "}
+          <span className="text-3xl font-bold text-[#00AAA0]">
+            {futureCapacityPercentage}%
+          </span>
+          <br />
+          <span className="text-xl font-semibold text-gray-900">
+            เมื่อเทียบกับแบตเตอรี่ใหม่ที่เริ่มใช้งานวันนี้
+          </span>
+        </p>
 
-        <div className="mt-6 rounded-2xl border border-[#8ED2C9] bg-[#F8FFFE] p-6">
-
-          <p className="text-xl font-semibold leading-relaxed text-gray-900">
-            การเก็บประจุไฟฟ้าของแบตเตอรี่เก่าตลอด 10 ปีใช้งานข้างหน้า
-            คิดเป็น{" "}
-            <span className="text-3xl font-bold text-[#00AAA0]">
-              {futureCapacityPercentage}%
-            </span>{" "}
-            ของแบตเตอรี่ใหม่
-          </p>
-
-          <p className="mt-2 text-sm text-gray-500">
-            คำนวณจากการเปรียบเทียบพื้นที่ใต้กราฟ SOH ของแบตเตอรี่เก่า
-            และแบตเตอรี่ใหม่ ตั้งแต่อายุรถปัจจุบันจนถึงอีก 10 ปีข้างหน้า
-          </p>
-
-        </div>
+        <p className="mt-2 text-sm text-gray-500">
+          เปรียบเทียบพื้นที่ใต้กราฟ SOH ของแบตเตอรี่เก่าในช่วง 10 ปีข้างหน้า
+          กับแบตเตอรี่ใหม่ในช่วง 10 ปีแรกของการใช้งาน
+        </p>
+      </div>
 
       {/* ================================================= */}
       {/* ตารางคำนวณอายุแบตเตอรี่ */}
