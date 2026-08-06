@@ -37,10 +37,10 @@ export default function DerivedParameters({
 
   const frequencyMap: Record<string, number> = {
     ทุกวัน: 30.44,
-    วันเว้นวัน: 15,
-    "2–3 ครั้ง/สัปดาห์": 10,
-    "1 ครั้ง/สัปดาห์": 4,
-    "2–3 ครั้ง/เดือน": 2,
+    วันเว้นวัน: 15.22,
+    "2–3 ครั้ง/สัปดาห์": 10.9,
+    "1 ครั้ง/สัปดาห์": 4.3,
+    "2–3 ครั้ง/เดือน": 2.5,
     "1 ครั้ง/เดือน": 1,
     "น้อยกว่า 1 ครั้ง/เดือน": 0.5,
   };
@@ -269,7 +269,7 @@ export default function DerivedParameters({
         <div className="rounded-2xl bg-[#F8FFFE] p-6">
           <p className="text-sm text-gray-500">ความถี่ชาร์จ</p>
 
-          <p className="mt-2 text-3xl font-bold text-[#00AAA0]">{frequency}</p>
+          <p className="mt-2 text-3xl font-bold text-[#00AAA0]">{frequency.toFixed(0)}</p>
 
           <p className="text-gray-500">ครั้ง/เดือน</p>
         </div>

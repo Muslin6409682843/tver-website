@@ -82,6 +82,8 @@ export default function SellerPage() {
 
       {showResult && (
         <div id="calculation-result" className="mt-12">
+          <ResultSummary data={formData} images={images} />
+
           <DerivedParameters
             data={formData}
             onCalculated={setFutureCapacityPercentage}
@@ -90,8 +92,6 @@ export default function SellerPage() {
 
           {!showWarning && (
             <>
-              <ResultSummary data={formData} images={images} />
-
               <BatteryPriceSection
                 futureCapacityPercentage={futureCapacityPercentage}
               />
