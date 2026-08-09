@@ -290,7 +290,7 @@ export default function DerivedParameters({
           <p className="text-sm text-gray-500">กิโลเมตรต่อการชาร์จ</p>
 
           <p className="mt-2 text-3xl font-bold text-[#00AAA0]">
-            {kmPerCharge.toFixed(2)}
+            {kmPerCharge.toFixed(0)}
           </p>
 
           <p className="text-gray-500">km / charge</p>
