@@ -34,83 +34,101 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
 
   const brands = ["BYD", "Tesla", "MG", "NETA", "GWM"];
 
+  // =====================================================
+  // ข้อมูลรถแต่ละรุ่น
+  // =====================================================
+
   const carModels: Record<
-  string,
-  Record<
     string,
-    {
-      fullRange: number;
-      batteryPrice: number;
-    }
-  >
-> = {
-  BYD: {
-    "Atto 3": {
-      fullRange: 400,
-      batteryPrice: 528730,
+    Record<
+      string,
+      {
+        range: number;
+        batteryCapacity: number;
+        batteryPrice: number;
+      }
+    >
+  > = {
+    BYD: {
+      "Atto 3": {
+        range: 400,
+        batteryCapacity: 60.48,
+        batteryPrice: 320122,
+      },
+      Dolphin: {
+        range: 490,
+        batteryCapacity: 60.48,
+        batteryPrice: 309364,
+      },
+      Seal: {
+        range: 580,
+        batteryCapacity: 82.56,
+        batteryPrice: 451290,
+      },
     },
-    Dolphin: {
-      fullRange: 490,
-      batteryPrice: 450000,
-    },
-    Seal: {
-      fullRange: 580,
-      batteryPrice: 650000,
-    },
-  },
 
-  Tesla: {
-    "Model 3": {
-      fullRange: 513,
-      batteryPrice: 600000,
+    Tesla: {
+      "Model 3": {
+        range: 513,
+        batteryCapacity: 60,
+        batteryPrice: 400000,
+      },
+      "Model Y": {
+        range: 455,
+        batteryCapacity: 60,
+        batteryPrice: 430000,
+      },
     },
-    "Model Y": {
-      fullRange: 455,
-      batteryPrice: 650000,
-    },
-  },
 
-  MG: {
-    "MG4 Electric": {
-      fullRange: 425,
-      batteryPrice: 420000,
+    MG: {
+      "MG4 Electric": {
+        range: 425,
+        batteryCapacity: 64,
+        batteryPrice: 400000,
+      },
+      "MG ZS EV": {
+        range: 403,
+        batteryCapacity: 50.3,
+        batteryPrice: 450000,
+      },
+      "MG EP": {
+        range: 380,
+        batteryCapacity: 50.3,
+        batteryPrice: 450000,
+      },
     },
-    "MG ZS EV": {
-      fullRange: 320,
-      batteryPrice: 400000,
-    },
-    "MG EP": {
-      fullRange: 380,
-      batteryPrice: 430000,
-    },
-  },
 
-  NETA: {
-    "NETA V": {
-      fullRange: 384,
-      batteryPrice: 380000,
+    NETA: {
+      "NETA V": {
+        range: 384,
+        batteryCapacity: 40.7,
+        batteryPrice: 420000,
+      },
+      "NETA X": {
+        range: 480,
+        batteryCapacity: 62,
+        batteryPrice: 450000,
+      },
     },
-    "NETA X": {
-      fullRange: 480,
-      batteryPrice: 500000,
-    },
-  },
 
-  GWM: {
-    "ORA Good Cat": {
-      fullRange: 500,
-      batteryPrice: 540000,
+    GWM: {
+      "ORA Good Cat": {
+        range: 480,
+        batteryCapacity: 57.7,
+        batteryPrice: 450000,
+      },
+      "ORA Good Cat GT": {
+        range: 460,
+        batteryCapacity: 57.7,
+        batteryPrice: 450000,
+      },
+      "TANK 300 EV": {
+        range: 500,
+        batteryCapacity: 78,
+        batteryPrice: 480000,
+      },
     },
-    "ORA Good Cat GT": {
-      fullRange: 480,
-      batteryPrice: 560000,
-    },
-    "TANK 300 EV": {
-      fullRange: 500,
-      batteryPrice: 650000,
-    },
-  },
-};
+  };
 
   const chargeOptions = [
     { value: "ทุกวัน", label: "ทุกวัน" },
@@ -135,13 +153,20 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
     { value: "50", label: "50%" },
   ];
 
+  const selectedCar =
+    selectedBrand && selectedModel
+      ? carModels[selectedBrand]?.[selectedModel]
+      : null;
+
   return (
     <section className="mx-auto mt-10 max-w-7xl rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
-      <h2 className="text-3xl font-bold text-gray-900">กรอกข้อมูลรถยนต์</h2>
+      <h2 className="text-3xl font-bold text-gray-900">
+        กรอกข้อมูลรถยนต์
+      </h2>
 
       <p className="mt-3 text-gray-600">
-        กรุณากรอกข้อมูลให้ครบถ้วน (<span className="text-red-500">*</span>{" "}
-        บังคับกรอก)
+        กรุณากรอกข้อมูลให้ครบถ้วน (
+        <span className="text-red-500">*</span> บังคับกรอก)
       </p>
 
       <form
@@ -156,13 +181,19 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
             string
           >;
 
-          const batteryPrice =
-  selectedBrand && selectedModel
-    ? carModels[selectedBrand][selectedModel].batteryPrice
-    : 0;
+          // ---------------------------------------------
+          // เพิ่มข้อมูลจากฐานข้อมูลรถ
+          // ---------------------------------------------
 
-data.batteryPrice = String(batteryPrice);
+          if (selectedCar) {
+            data.fullRange = String(selectedCar.range);
+            data.batteryCapacity = String(
+              selectedCar.batteryCapacity,
+            );
+            data.batteryPrice = String(selectedCar.batteryPrice);
+          }
 
+          // เรียกเพียงครั้งเดียว
           onCalculate(data);
         }}
       >
@@ -194,6 +225,7 @@ data.batteryPrice = String(batteryPrice);
               ))}
             </select>
           </div>
+
           {/* Model */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -209,7 +241,9 @@ data.batteryPrice = String(batteryPrice);
               className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none transition focus:border-[#00AAA0] focus:ring-2 focus:ring-[#00AAA0]/20 disabled:bg-gray-100"
             >
               <option value="">
-                {selectedBrand ? "เลือกรุ่นรถ" : "กรุณาเลือกยี่ห้อก่อน"}
+                {selectedBrand
+                  ? "เลือกรุ่นรถ"
+                  : "กรุณาเลือกยี่ห้อก่อน"}
               </option>
 
               {selectedBrand &&
@@ -224,7 +258,8 @@ data.batteryPrice = String(batteryPrice);
           {/* Year */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
-              ปีที่ออกรถ (ค.ศ.) <span className="text-red-500">*</span>
+              ปีที่ออกรถ (ค.ศ.){" "}
+              <span className="text-red-500">*</span>
             </label>
 
             <select
@@ -244,10 +279,12 @@ data.batteryPrice = String(batteryPrice);
               ))}
             </select>
           </div>
+
           {/* Month */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
-              เดือนที่ออกรถ <span className="text-red-500">*</span>
+              เดือนที่ออกรถ{" "}
+              <span className="text-red-500">*</span>
             </label>
 
             <select
@@ -267,6 +304,7 @@ data.batteryPrice = String(batteryPrice);
               ))}
             </select>
           </div>
+
           {/* Charge Frequency */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -291,6 +329,7 @@ data.batteryPrice = String(batteryPrice);
               ))}
             </select>
           </div>
+
           {/* Charge Limit */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -315,10 +354,12 @@ data.batteryPrice = String(batteryPrice);
               ))}
             </select>
           </div>
+
           {/* Mileage */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
-              เลขไมล์สะสมของรถ (กม.) <span className="text-red-500">*</span>
+              เลขไมล์สะสมของรถ (กม.){" "}
+              <span className="text-red-500">*</span>
             </label>
 
             <input
@@ -330,6 +371,7 @@ data.batteryPrice = String(batteryPrice);
               className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 outline-none transition focus:border-[#00AAA0] focus:ring-2 focus:ring-[#00AAA0]/20"
             />
           </div>
+
           {/* Full Range */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -337,19 +379,36 @@ data.batteryPrice = String(batteryPrice);
             </label>
 
             <input
-              type="number"
-              name="fullRange"
+              type="text"
               readOnly
-              value={
-  selectedBrand && selectedModel
-    ? carModels[selectedBrand][selectedModel].fullRange
-    : ""
-}
+              value={selectedCar ? selectedCar.range : ""}
               className="w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-3"
             />
 
             <p className="mt-2 text-sm text-gray-500">
               ระบบดึงข้อมูลจากรุ่นรถที่เลือก
+            </p>
+          </div>
+
+          {/* Battery Capacity */}
+          <div>
+            <label className="mb-2 block text-sm font-medium text-gray-700">
+              ความจุแบตเตอรี่
+            </label>
+
+            <input
+              type="text"
+              readOnly
+              value={
+                selectedCar
+                  ? `${selectedCar.batteryCapacity} kWh`
+                  : ""
+              }
+              className="w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-3"
+            />
+
+            <p className="mt-2 text-sm text-gray-500">
+              ระบบดึงข้อมูลความจุแบตเตอรี่จากรุ่นรถที่เลือก
             </p>
           </div>
         </div>

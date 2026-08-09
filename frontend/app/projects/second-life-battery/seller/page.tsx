@@ -15,16 +15,13 @@ export default function SellerPage() {
 
   const [images, setImages] = useState<File[]>([]);
 
-  const [formData, setFormData] = useState<Record<string, string> | null>(
-    null,
-  );
+  const [formData, setFormData] = useState<Record<string, string> | null>(null);
 
   // =====================================================
   // Future Capacity Percentage
   // =====================================================
 
-  const [futureCapacityPercentage, setFutureCapacityPercentage] =
-    useState(0);
+  const [futureCapacityPercentage, setFutureCapacityPercentage] = useState(0);
 
   const [showWarning, setShowWarning] = useState(false);
 
@@ -34,11 +31,9 @@ export default function SellerPage() {
     setShowResult(true);
 
     setTimeout(() => {
-      document
-        .getElementById("calculation-result")
-        ?.scrollIntoView({
-          behavior: "smooth",
-        });
+      document.getElementById("calculation-result")?.scrollIntoView({
+        behavior: "smooth",
+      });
     }, 100);
   };
 
@@ -52,8 +47,7 @@ export default function SellerPage() {
             </h2>
 
             <p className="mt-4 text-gray-700">
-              ข้อมูลที่กรอกไม่สอดคล้องกัน
-              ทำให้ค่า Battery Low ต่ำกว่า 0%
+              ข้อมูลที่กรอกไม่สอดคล้องกัน ทำให้ค่า Battery Low ต่ำกว่า 0%
             </p>
 
             <div className="mt-5 rounded-xl bg-red-50 p-4 text-sm text-gray-700">
@@ -83,19 +77,13 @@ export default function SellerPage() {
 
       <BatteryGuide />
 
-      <BatteryUploader
-        images={images}
-        setImages={setImages}
-      />
+      <BatteryUploader images={images} setImages={setImages} />
 
       <BatteryForm onCalculate={handleCalculate} />
 
       {showResult && formData && (
         <div id="calculation-result" className="mt-12">
-          <ResultSummary
-            data={formData}
-            images={images}
-          />
+          <ResultSummary data={formData} images={images} />
 
           <DerivedParameters
             data={formData}
@@ -106,19 +94,13 @@ export default function SellerPage() {
           {!showWarning && (
             <>
               <BatteryPriceSection
-                futureCapacityPercentage={
-                  futureCapacityPercentage
-                }
-                newBatteryPrice={Number(
-                  formData.batteryPrice ?? 0,
-                )}
+                futureCapacityPercentage={futureCapacityPercentage}
+                newBatteryPrice={Number(formData.batteryPrice ?? 0)}
               />
 
               <CarbonReductionSection
-                fullRange={Number(formData.fullRange)}
-                futureCapacityPercentage={
-                  futureCapacityPercentage
-                }
+                batteryCapacity={Number(formData.batteryCapacity)}
+                futureCapacityPercentage={futureCapacityPercentage}
               />
             </>
           )}

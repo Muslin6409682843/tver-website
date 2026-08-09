@@ -50,7 +50,9 @@ export default function ResultSummary({
 
         <div>
           <strong>เลขไมล์</strong>
-          <p className="mt-1">{data.mileage} km</p>
+          <p className="mt-1">
+  {Number(data.mileage).toLocaleString()} km
+</p>
         </div>
 
         <div>

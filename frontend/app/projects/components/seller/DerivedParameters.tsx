@@ -279,7 +279,7 @@ export default function DerivedParameters({
           </p>
 
           <p className="mt-2 text-3xl font-bold text-[#00AAA0]">
-            {totalCharge.toFixed(0)}
+            {totalCharge.toFixed(0).toLocaleString()}
           </p>
 
           <p className="text-gray-500">
@@ -294,7 +294,7 @@ export default function DerivedParameters({
           </p>
 
           <p className="mt-2 text-3xl font-bold text-[#00AAA0]">
-            {kmPerCharge.toFixed(0)}
+            {Math.round(kmPerCharge).toLocaleString()}
           </p>
 
           <p className="text-gray-500">

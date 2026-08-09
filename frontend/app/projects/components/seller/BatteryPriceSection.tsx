@@ -9,16 +9,13 @@ export default function BatteryPriceSection({
   futureCapacityPercentage,
   newBatteryPrice,
 }: Props) {
-  const batteryValue =
-    newBatteryPrice * (futureCapacityPercentage / 100);
+  const batteryValue = newBatteryPrice * (futureCapacityPercentage / 100);
 
   const discountFactor = 0.2;
 
-  const discountAmount =
-    batteryValue * discountFactor;
+  const discountAmount = batteryValue * discountFactor;
 
-  const recommendedPrice =
-    batteryValue - discountAmount;
+  const recommendedPrice = batteryValue - discountAmount;
 
   return (
     <section className="mx-auto mt-10 max-w-7xl rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
@@ -26,13 +23,10 @@ export default function BatteryPriceSection({
       {/* Header */}
       {/* ================================================= */}
 
-      <h2 className="text-3xl font-bold text-gray-900">
-        ราคาประเมินแบตเตอรี่
-      </h2>
+      <h2 className="text-3xl font-bold text-gray-900">ราคาประเมินแบตเตอรี่</h2>
 
       <p className="mt-2 text-gray-600">
-        ประเมินราคาจากราคาแบตเตอรี่ใหม่ในตลาด
-        และประสิทธิภาพของแบตเตอรี่ใช้แล้ว
+        ประเมินราคาจากราคาแบตเตอรี่ใหม่ในตลาด และประสิทธิภาพของแบตเตอรี่ใช้แล้ว
       </p>
 
       <div className="mt-8">
@@ -67,7 +61,7 @@ export default function BatteryPriceSection({
           </div>
 
           <p className="text-2xl font-bold text-[#00AAA0]">
-            {batteryValue.toLocaleString()} บาท
+            {Math.round(batteryValue).toLocaleString()} บาท
           </p>
         </div>
 
@@ -87,7 +81,7 @@ export default function BatteryPriceSection({
           </div>
 
           <p className="text-2xl font-bold text-[#FF7A5A]">
-            - {discountAmount.toLocaleString()} บาท
+            - {Math.round(discountAmount).toLocaleString()} บาท
           </p>
         </div>
 
@@ -101,12 +95,11 @@ export default function BatteryPriceSection({
           </p>
 
           <p className="mt-2 text-4xl font-bold text-[#00AAA0]">
-            {recommendedPrice.toLocaleString()} บาท
+            {Math.round(recommendedPrice).toLocaleString()} บาท
           </p>
 
           <p className="mt-2 text-sm text-gray-500">
-            ราคาประเมินหลังหัก Discount Factor{" "}
-            {discountFactor * 100}%
+            ราคาประเมินหลังหัก Discount Factor {discountFactor * 100}%
           </p>
         </div>
       </div>
