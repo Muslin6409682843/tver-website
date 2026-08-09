@@ -10,92 +10,103 @@ export const getBatteryTable = (
   const currentYears = Math.floor(ageInMonths / 12);
   const currentMonths = ageInMonths % 12;
 
-  // อายุสูงสุด = อายุรถปัจจุบัน + 10 ปี
-  const endYear = currentYears + 10;
+  // ตารางแสดง Year 0 → Year 10
+  const totalYears = 10;
 
   let previousLSlb = 0;
   let previousL = 0;
 
   return Array.from(
-    { length: endYear + 1 },
+    { length: totalYears + 1 },
     (_, yearIndex) => {
       // -------------------------
       // Year ที่แสดง
       // -------------------------
 
-      const displayYear =
-        yearIndex === 0
-          ? 0
-          : yearIndex;
+      const displayYear = yearIndex;
 
+      // Year 0 แสดง 0 เดือน
+      // หลังจากนั้นใช้เดือนเดียวกับอายุปัจจุบัน
       const displayMonth =
         yearIndex === 0
           ? 0
           : currentMonths;
 
       // -------------------------
-      // อายุจริงสำหรับการคำนวณ
+      // อายุจริงสำหรับ SLB
+      // เริ่มจากอายุแบตปัจจุบัน
       // -------------------------
 
-      const calculationMonths =
-        yearIndex === 0
-          ? 0
-          : yearIndex * 12 + currentMonths;
+      const slbCalculationMonths =
+        ageInMonths + yearIndex * 12;
 
-      const calculationYears =
-        calculationMonths / 12;
+      const slbCalculationYears =
+        slbCalculationMonths / 12;
 
       // -------------------------
-      // จำนวนวัน
+      // อายุจริงสำหรับ NB
+      // เริ่มจากแบตใหม่ 0 ปี
       // -------------------------
 
-      const N = calculationYears * 365;
+      const nbCalculationMonths =
+        yearIndex * 12;
 
-      // -------------------------
-      // เวลาเป็นวินาที
-      // -------------------------
+      const nbCalculationYears =
+        nbCalculationMonths / 12;
 
-      const t = N * 24 * 60 * 60;
+      // =====================================================
+      // NB
+      // =====================================================
 
-      // -------------------------
-      // f(t)
-      // -------------------------
+      const nbN = nbCalculationYears * 365;
 
-      const ft = 4.1375e-10 * t;
+      const nbT = nbN * 24 * 60 * 60;
 
-      // -------------------------
-      // Calendar aging
-      // -------------------------
+      const nbFt = 4.1375e-10 * nbT;
 
-      const fCal = ft * fSoc * fT;
+      const nbFCal =
+        nbFt * fSoc * fT;
 
-      // -------------------------
-      // Cycle aging
-      // -------------------------
+      const nbFCycle =
+        fDod * fSoc * fT * nbN;
 
-      const fCycle =
-        fDod * fSoc * fT * N;
-
-      // -------------------------
-      // Total degradation
-      // -------------------------
-
-      const fD = fCal + fCycle;
-
-      // -------------------------
-      // L high-low (NB)
-      // -------------------------
+      const nbFD =
+        nbFCal + nbFCycle;
 
       const L =
-        (1 - 0.0575 * Math.exp(fD * -121)) -
-        ((1 - 0.0575) * Math.exp(-fD));
+        (1 - 0.0575 * Math.exp(nbFD * -121)) -
+        ((1 - 0.0575) * Math.exp(-nbFD));
 
-      // -------------------------
-      // L_SLB
-      // -------------------------
+      const sohNb =
+        (1 - L) * 100;
+
+      // =====================================================
+      // SLB
+      // =====================================================
+
+      const slbN =
+        slbCalculationYears * 365;
+
+      const slbT =
+        slbN * 24 * 60 * 60;
+
+      const slbFt =
+        4.1375e-10 * slbT;
+
+      const slbFCal =
+        slbFt * fSoc * fT;
+
+      const slbFCycle =
+        fDod * fSoc * fT * slbN;
+
+      const slbFD =
+        slbFCal + slbFCycle;
 
       const LSLB =
-        1 - ((1 - 0.2) * Math.exp(-fD));
+        1 - ((1 - 0.2) * Math.exp(-slbFD));
+
+      const sohSlb =
+        (1 - LSLB) * 100;
 
       // -------------------------
       // Degrade SLB
@@ -119,37 +130,30 @@ export const getBatteryTable = (
           (L - previousL) * 100;
       }
 
-      // -------------------------
-      // SOH
-      // -------------------------
-
-      const sohSlb =
-        (1 - LSLB) * 100;
-
-      const sohNb =
-        (1 - L) * 100;
-
       previousLSlb = LSLB;
       previousL = L;
 
       return {
+        // อายุที่ใช้แสดงในตาราง
         year: displayYear,
         month: displayMonth,
 
-        calculationMonths,
+        // อายุจริงของ SLB
+        calculationMonths: slbCalculationMonths,
 
-        N,
-        t,
+        // อายุจริงของ NB
+        nbCalculationMonths,
 
-        ft,
-
-        fCal,
-        fCycle,
-
-        fD,
+        // ค่า N / t / f ต่าง ๆ
+        // ให้แสดงค่าของ SLB
+        N: slbN,
+        t: slbT,
+        ft: slbFt,
+        fCal: slbFCal,
+        fCycle: slbFCycle,
+        fD: slbFD,
 
         L,
-
         LSLB,
 
         degradeSlb,

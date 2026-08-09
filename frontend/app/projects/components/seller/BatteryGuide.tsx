@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export default function BatteryGuide() {
   return (
-    <section className="mx-auto max-w-6xl rounded-3xl border border-gray-200 bg-white p-8 shadow-sm md:p-12">
+    <section className="mx-auto mt-10 max-w-7xl rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
       {/* Heading */}
       <div className="text-center">
         <span className="inline-flex rounded-full bg-[#E8FAF8] px-4 py-1 text-sm font-medium text-[#00AAA0]">

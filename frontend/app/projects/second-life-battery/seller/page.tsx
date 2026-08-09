@@ -15,13 +15,18 @@ export default function SellerPage() {
 
   const [images, setImages] = useState<File[]>([]);
 
-  const [formData, setFormData] = useState<any>(null);
+  const [formData, setFormData] = useState<Record<string, string> | null>(
+    null,
+  );
 
   // =====================================================
   // Future Capacity Percentage
   // =====================================================
 
-  const [futureCapacityPercentage, setFutureCapacityPercentage] = useState(0);
+  const [futureCapacityPercentage, setFutureCapacityPercentage] =
+    useState(0);
+
+  const [showWarning, setShowWarning] = useState(false);
 
   const handleCalculate = (data: Record<string, string>) => {
     setShowWarning(false);
@@ -29,25 +34,26 @@ export default function SellerPage() {
     setShowResult(true);
 
     setTimeout(() => {
-      document.getElementById("calculation-result")?.scrollIntoView({
-        behavior: "smooth",
-      });
+      document
+        .getElementById("calculation-result")
+        ?.scrollIntoView({
+          behavior: "smooth",
+        });
     }, 100);
   };
 
-  const [showWarning, setShowWarning] = useState(false);
-
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white via-[#FCFFFE] to-[#F5FCFB] py-20 px-6">
+    <main>
       {showWarning && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-          <div className="w-full max-w-lg rounded-3xl bg-white p-8 shadow-xl">
-            <h2 className="text-2xl font-bold text-red-700">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+          <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+            <h2 className="text-xl font-bold text-gray-900">
               ⚠️ ไม่สามารถคำนวณผลลัพธ์ได้
             </h2>
 
             <p className="mt-4 text-gray-700">
-              ข้อมูลที่กรอกไม่สอดคล้องกัน ทำให้ค่า Battery Low ต่ำกว่า 0%
+              ข้อมูลที่กรอกไม่สอดคล้องกัน
+              ทำให้ค่า Battery Low ต่ำกว่า 0%
             </p>
 
             <div className="mt-5 rounded-xl bg-red-50 p-4 text-sm text-gray-700">
@@ -74,15 +80,22 @@ export default function SellerPage() {
           </div>
         </div>
       )}
+
       <BatteryGuide />
 
-      <BatteryUploader images={images} setImages={setImages} />
+      <BatteryUploader
+        images={images}
+        setImages={setImages}
+      />
 
       <BatteryForm onCalculate={handleCalculate} />
 
-      {showResult && (
+      {showResult && formData && (
         <div id="calculation-result" className="mt-12">
-          <ResultSummary data={formData} images={images} />
+          <ResultSummary
+            data={formData}
+            images={images}
+          />
 
           <DerivedParameters
             data={formData}
@@ -93,12 +106,19 @@ export default function SellerPage() {
           {!showWarning && (
             <>
               <BatteryPriceSection
-                futureCapacityPercentage={futureCapacityPercentage}
+                futureCapacityPercentage={
+                  futureCapacityPercentage
+                }
+                newBatteryPrice={Number(
+                  formData.batteryPrice ?? 0,
+                )}
               />
 
               <CarbonReductionSection
                 fullRange={Number(formData.fullRange)}
-                futureCapacityPercentage={futureCapacityPercentage}
+                futureCapacityPercentage={
+                  futureCapacityPercentage
+                }
               />
             </>
           )}

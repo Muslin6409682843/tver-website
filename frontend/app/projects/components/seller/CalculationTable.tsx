@@ -1,4 +1,4 @@
- "use client";
+"use client";
 
 import { useState } from "react";
 import {
@@ -36,26 +36,7 @@ export default function CalculationTable({
   const [showTable, setShowTable] = useState(false);
   const [showChart, setShowChart] = useState(false);
 
-  const batteryTable = getBatteryTable(
-    fSoc,
-    fT,
-    fDod,
-    high,
-    low,
-    ageInMonths
-  );
-
-  // -------------------------
-  // อายุรถปัจจุบัน
-  // -------------------------
-
-  const currentYears = Math.floor(ageInMonths / 12);
-
-  // -------------------------
-  // อายุรถ + อีก 10 ปี
-  // -------------------------
-
-  const forecastEndYear = currentYears + 10;
+  const batteryTable = getBatteryTable(fSoc, fT, fDod, high, low, ageInMonths);
 
   // -------------------------
   // ข้อมูลสำหรับกราฟ
@@ -69,15 +50,12 @@ export default function CalculationTable({
 
   return (
     <section className="mt-10">
-
       {/* ================================================= */}
       {/* ตารางรายละเอียดการคำนวณ */}
       {/* ================================================= */}
 
       <div className="rounded-3xl border border-[#8ED2C9] bg-[#F8FFFE] p-8">
-
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-
           <div>
             <h2 className="text-xl font-semibold leading-relaxed text-gray-900">
               ตารางรายละเอียดการคำนวณ
@@ -95,7 +73,6 @@ export default function CalculationTable({
           >
             {showTable ? "ซ่อนตาราง" : "แสดงตาราง"}
           </button>
-
         </div>
 
         {/* ================================================= */}
@@ -104,47 +81,30 @@ export default function CalculationTable({
 
         {showTable && (
           <div className="mt-8 overflow-x-auto rounded-2xl border border-gray-200 bg-white">
-
             <table className="w-full min-w-[1200px] border-collapse">
-
               <thead className="bg-[#F8FFFE]">
                 <tr>
-
                   <th className="w-[160px] min-w-[160px] whitespace-nowrap border-b px-6 py-4 text-left">
                     Year
                   </th>
 
-                  <th className="border-b px-6 py-4 text-left">
-                    N
-                  </th>
+                  <th className="border-b px-6 py-4 text-left">N</th>
 
-                  <th className="border-b px-6 py-4 text-left">
-                    t
-                  </th>
+                  <th className="border-b px-6 py-4 text-left">t</th>
 
-                  <th className="border-b px-6 py-4 text-left">
-                    f_t
-                  </th>
+                  <th className="border-b px-6 py-4 text-left">f_t</th>
 
-                  <th className="border-b px-6 py-4 text-left">
-                    f_cal
-                  </th>
+                  <th className="border-b px-6 py-4 text-left">f_cal</th>
 
-                  <th className="border-b px-6 py-4 text-left">
-                    f_cycle
-                  </th>
+                  <th className="border-b px-6 py-4 text-left">f_cycle</th>
 
-                  <th className="border-b px-6 py-4 text-left">
-                    f_d
-                  </th>
+                  <th className="border-b px-6 py-4 text-left">f_d</th>
 
                   <th className="border-b px-6 py-4 text-left">
                     L{high}-{Math.round(low)}
                   </th>
 
-                  <th className="border-b px-6 py-4 text-left">
-                    L_SLB
-                  </th>
+                  <th className="border-b px-6 py-4 text-left">L_SLB</th>
 
                   <th className="border-b px-6 py-4 text-left">
                     Degrade SLB@{high}-{Math.round(low)}%
@@ -161,17 +121,12 @@ export default function CalculationTable({
                   <th className="border-b px-6 py-4 text-left">
                     SOH NB@{high}-{Math.round(low)}%
                   </th>
-
                 </tr>
               </thead>
 
               <tbody>
                 {batteryTable.map((row) => (
-                  <tr
-                    key={row.year}
-                    className="hover:bg-[#F8FFFE]"
-                  >
-
+                  <tr key={row.year} className="hover:bg-[#F8FFFE]">
                     <td className="w-[160px] min-w-[160px] whitespace-nowrap border-b px-6 py-4 font-semibold">
                       {row.year} ปี {row.month} เดือน
                     </td>
@@ -184,9 +139,7 @@ export default function CalculationTable({
                       {row.t.toLocaleString()}
                     </td>
 
-                    <td className="border-b px-6 py-4">
-                      {row.ft.toFixed(5)}
-                    </td>
+                    <td className="border-b px-6 py-4">{row.ft.toFixed(5)}</td>
 
                     <td className="border-b px-6 py-4 font-semibold text-[#00AAA0]">
                       {row.fCal.toFixed(4)}
@@ -227,16 +180,12 @@ export default function CalculationTable({
                     <td className="border-b px-6 py-4 font-semibold text-[#00AAA0]">
                       {Math.round(row.sohNb)}%
                     </td>
-
                   </tr>
                 ))}
               </tbody>
-
             </table>
-
           </div>
         )}
-
       </div>
 
       {/* ================================================= */}
@@ -244,11 +193,9 @@ export default function CalculationTable({
       {/* ================================================= */}
 
       <div className="mt-6 rounded-3xl border border-[#8ED2C9] bg-[#F8FFFE] p-8">
-
         {/* Header */}
 
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-
           <div>
             <h2 className="text-xl font-semibold leading-relaxed text-gray-900">
               กราฟประสิทธิภาพแบตเตอรี่
@@ -266,7 +213,6 @@ export default function CalculationTable({
           >
             {showChart ? "ซ่อนกราฟ" : "แสดงกราฟ"}
           </button>
-
         </div>
 
         {/* ================================================= */}
@@ -275,24 +221,19 @@ export default function CalculationTable({
 
         {showChart && (
           <div className="mt-8 rounded-2xl border border-gray-200 bg-white p-6">
-
             <div className="mb-4">
               <p className="font-semibold text-gray-900">
                 SOH ตามอายุแบตเตอรี่
               </p>
 
               <p className="mt-1 text-sm text-gray-500">
-                จุดปัจจุบันคืออายุรถในปัจจุบัน และพื้นที่ไฮไลท์คือช่วงคาดการณ์อีก 10 ปี
+                เปรียบเทียบ SOH ของแบตเตอรี่ใช้แล้วและแบตเตอรี่ใหม่ในช่วง 10 ปี
+                โดย Year 0 คือจุดเริ่มต้นการใช้งาน ณ ปัจจุบัน
               </p>
             </div>
 
             <div className="h-[460px] w-full">
-
-              <ResponsiveContainer
-                width="100%"
-                height="100%"
-              >
-
+              <ResponsiveContainer width="100%" height="100%">
                 <LineChart
                   data={chartData}
                   margin={{
@@ -302,7 +243,6 @@ export default function CalculationTable({
                     bottom: 45,
                   }}
                 >
-
                   <CartesianGrid strokeDasharray="3 3" />
 
                   {/* X Axis */}
@@ -320,19 +260,7 @@ export default function CalculationTable({
 
                   <YAxis
                     domain={[0, 100]}
-                    ticks={[
-                      0,
-                      10,
-                      20,
-                      30,
-                      40,
-                      50,
-                      60,
-                      70,
-                      80,
-                      90,
-                      100,
-                    ]}
+                    ticks={[0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]}
                     tickFormatter={(value) => `${value}%`}
                     label={{
                       value: "SOH",
@@ -346,13 +274,9 @@ export default function CalculationTable({
                   <Tooltip
                     formatter={(value, name) => [
                       `${value}%`,
-                      name === "sohSlb"
-                        ? "SOH SLB"
-                        : "SOH NB",
+                      name === "sohSlb" ? "SOH SLB" : "SOH NB",
                     ]}
-                    labelFormatter={(label) =>
-                      `Year ${label}`
-                    }
+                    labelFormatter={(label) => `Year ${label}`}
                   />
 
                   {/* Legend */}
@@ -365,35 +289,8 @@ export default function CalculationTable({
                       paddingBottom: "10px",
                     }}
                     formatter={(value) =>
-                      value === "sohSlb"
-                        ? "SOH SLB"
-                        : "SOH NB"
+                      value === "sohSlb" ? "SOH SLB" : "SOH NB"
                     }
-                  />
-
-                  {/* ================================================= */}
-                  {/* Highlight ช่วง 10 ปี */}
-                  {/* ================================================= */}
-
-                  <ReferenceArea
-                    x1={currentYears}
-                    x2={forecastEndYear}
-                    fill="#8ED2C9"
-                    fillOpacity={0.18}
-                  />
-
-                  {/* ================================================= */}
-                  {/* เส้นอายุรถปัจจุบัน */}
-                  {/* ================================================= */}
-
-                  <ReferenceLine
-                    x={currentYears}
-                    stroke="#555555"
-                    strokeDasharray="6 4"
-                    label={{
-                      value: "ปัจจุบัน",
-                      position: "top",
-                    }}
                   />
 
                   {/* ================================================= */}
@@ -435,18 +332,12 @@ export default function CalculationTable({
                       fill: "#00AAA0",
                     }}
                   />
-
                 </LineChart>
-
               </ResponsiveContainer>
-
             </div>
-
           </div>
         )}
-
       </div>
-
     </section>
   );
 }

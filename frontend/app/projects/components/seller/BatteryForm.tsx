@@ -34,35 +34,83 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
 
   const brands = ["BYD", "Tesla", "MG", "NETA", "GWM"];
 
-  const carModels: Record<string, Record<string, number>> = {
-    BYD: {
-      "Atto 3": 400,
-      Dolphin: 490,
-      Seal: 580,
+  const carModels: Record<
+  string,
+  Record<
+    string,
+    {
+      fullRange: number;
+      batteryPrice: number;
+    }
+  >
+> = {
+  BYD: {
+    "Atto 3": {
+      fullRange: 400,
+      batteryPrice: 528730,
     },
+    Dolphin: {
+      fullRange: 490,
+      batteryPrice: 450000,
+    },
+    Seal: {
+      fullRange: 580,
+      batteryPrice: 650000,
+    },
+  },
 
-    Tesla: {
-      "Model 3": 513,
-      "Model Y": 455,
+  Tesla: {
+    "Model 3": {
+      fullRange: 513,
+      batteryPrice: 600000,
     },
+    "Model Y": {
+      fullRange: 455,
+      batteryPrice: 650000,
+    },
+  },
 
-    MG: {
-      "MG4 Electric": 425,
-      "MG ZS EV": 320,
-      "MG EP": 380,
+  MG: {
+    "MG4 Electric": {
+      fullRange: 425,
+      batteryPrice: 420000,
     },
+    "MG ZS EV": {
+      fullRange: 320,
+      batteryPrice: 400000,
+    },
+    "MG EP": {
+      fullRange: 380,
+      batteryPrice: 430000,
+    },
+  },
 
-    NETA: {
-      "NETA V": 384,
-      "NETA X": 480,
+  NETA: {
+    "NETA V": {
+      fullRange: 384,
+      batteryPrice: 380000,
     },
+    "NETA X": {
+      fullRange: 480,
+      batteryPrice: 500000,
+    },
+  },
 
-    GWM: {
-      "ORA Good Cat": 500,
-      "ORA Good Cat GT": 480,
-      "TANK 300 EV": 500,
+  GWM: {
+    "ORA Good Cat": {
+      fullRange: 500,
+      batteryPrice: 540000,
     },
-  };
+    "ORA Good Cat GT": {
+      fullRange: 480,
+      batteryPrice: 560000,
+    },
+    "TANK 300 EV": {
+      fullRange: 500,
+      batteryPrice: 650000,
+    },
+  },
+};
 
   const chargeOptions = [
     { value: "ทุกวัน", label: "ทุกวัน" },
@@ -88,7 +136,7 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
   ];
 
   return (
-    <section className="mx-auto mt-10 max-w-6xl rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+    <section className="mx-auto mt-10 max-w-7xl rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
       <h2 className="text-3xl font-bold text-gray-900">กรอกข้อมูลรถยนต์</h2>
 
       <p className="mt-3 text-gray-600">
@@ -107,6 +155,13 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
             string,
             string
           >;
+
+          const batteryPrice =
+  selectedBrand && selectedModel
+    ? carModels[selectedBrand][selectedModel].batteryPrice
+    : 0;
+
+data.batteryPrice = String(batteryPrice);
 
           onCalculate(data);
         }}
@@ -286,10 +341,10 @@ export default function BatteryForm({ onCalculate }: BatteryFormProps) {
               name="fullRange"
               readOnly
               value={
-                selectedBrand && selectedModel
-                  ? carModels[selectedBrand][selectedModel]
-                  : ""
-              }
+  selectedBrand && selectedModel
+    ? carModels[selectedBrand][selectedModel].fullRange
+    : ""
+}
               className="w-full rounded-xl border border-gray-300 bg-gray-100 px-4 py-3"
             />
 

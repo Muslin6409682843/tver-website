@@ -30,7 +30,7 @@ export default function BatteryUploader({
   };
 
   return (
-    <section className="mx-auto mt-10 max-w-6xl rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
+    <section className="mx-auto mt-10 max-w-7xl rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
       <div className="text-center">
         <h2 className="text-3xl font-bold text-gray-900">
           อัปโหลดรูปแบตเตอรี่

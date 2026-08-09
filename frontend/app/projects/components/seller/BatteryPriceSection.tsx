@@ -2,31 +2,43 @@
 
 type Props = {
   futureCapacityPercentage: number;
+  newBatteryPrice: number;
 };
 
 export default function BatteryPriceSection({
   futureCapacityPercentage,
+  newBatteryPrice,
 }: Props) {
-  const newBatteryPrice = 500000;
-
-  const batteryValue = newBatteryPrice * (futureCapacityPercentage / 100);
+  const batteryValue =
+    newBatteryPrice * (futureCapacityPercentage / 100);
 
   const discountFactor = 0.2;
 
-  const discountAmount = batteryValue * discountFactor;
+  const discountAmount =
+    batteryValue * discountFactor;
 
-  const recommendedPrice = batteryValue - discountAmount;
+  const recommendedPrice =
+    batteryValue - discountAmount;
 
   return (
     <section className="mx-auto mt-10 max-w-7xl rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
-      <h2 className="text-3xl font-bold text-gray-900">ราคาประเมินแบตเตอรี่</h2>
+      {/* ================================================= */}
+      {/* Header */}
+      {/* ================================================= */}
+
+      <h2 className="text-3xl font-bold text-gray-900">
+        ราคาประเมินแบตเตอรี่
+      </h2>
 
       <p className="mt-2 text-gray-600">
-        ประเมินราคาจากราคาแบตเตอรี่ใหม่ในตลาด และประสิทธิภาพของแบตเตอรี่ใช้แล้ว
+        ประเมินราคาจากราคาแบตเตอรี่ใหม่ในตลาด
+        และประสิทธิภาพของแบตเตอรี่ใช้แล้ว
       </p>
 
       <div className="mt-8">
+        {/* ================================================= */}
         {/* ราคาแบตเตอรี่ใหม่ */}
+        {/* ================================================= */}
 
         <div className="flex flex-col gap-2 border-b border-gray-200 pb-5 md:flex-row md:items-center md:justify-between">
           <p className="text-lg font-semibold text-gray-900">
@@ -38,7 +50,9 @@ export default function BatteryPriceSection({
           </p>
         </div>
 
+        {/* ================================================= */}
         {/* มูลค่าแบตเตอรี่เก่า */}
+        {/* ================================================= */}
 
         <div className="mt-5 flex flex-col gap-2 border-b border-gray-200 pb-5 md:flex-row md:items-center md:justify-between">
           <div>
@@ -57,7 +71,9 @@ export default function BatteryPriceSection({
           </p>
         </div>
 
+        {/* ================================================= */}
         {/* Discount Factor */}
+        {/* ================================================= */}
 
         <div className="mt-5 flex flex-col gap-2 border-b border-gray-200 pb-5 md:flex-row md:items-center md:justify-between">
           <div>
@@ -75,7 +91,9 @@ export default function BatteryPriceSection({
           </p>
         </div>
 
+        {/* ================================================= */}
         {/* ราคาขายจริง */}
+        {/* ================================================= */}
 
         <div className="mt-8 rounded-2xl border-2 border-[#00AAA0] bg-white p-6">
           <p className="text-lg font-semibold text-gray-900">
@@ -87,7 +105,8 @@ export default function BatteryPriceSection({
           </p>
 
           <p className="mt-2 text-sm text-gray-500">
-            ราคาประเมินหลังหัก Discount Factor {discountFactor * 100}%
+            ราคาประเมินหลังหัก Discount Factor{" "}
+            {discountFactor * 100}%
           </p>
         </div>
       </div>
